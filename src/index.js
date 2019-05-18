@@ -1,32 +1,39 @@
 import React from 'react';
-import { AppContainer } from 'react-hot-loader';
-import { render } from 'react-dom';
-import configStore from './common/configStore';
-import routeConfig from './common/routeConfig';
-import Root from './Root';
+import ReactDOM from 'react-dom';
+import Comment from './Comment';
+import ApprovalCard from './ApprovalCard';
+import faker from 'faker';
 
-const store = configStore();
+const App = () => {
+    return (
+        <div className="ui container comments">
+            <ApprovalCard>
+                <h4>Learning</h4>
+                <div>Are you sure you want to delete?</div>
+            </ApprovalCard>
+            <ApprovalCard>
+                <Comment 
+                    author="Sam"
+                    date="Today at 8:50"
+                    text="Learned React good job"
+                    image={faker.image.avatar()} />
+            </ApprovalCard>
+            <ApprovalCard>
+                <Comment
+                    author="John"
+                    date="Yesterday at 12:13"
+                    text="Could be better"
+                    image={faker.image.avatar()} />
+            </ApprovalCard>
+            <ApprovalCard>
+                <Comment 
+                    author="Maria"
+                    date="2 days ago"
+                    text="Nice blog post!"
+                    image={faker.image.avatar()} />
+            </ApprovalCard>
+        </div>
+    )
+};
 
-function renderApp(app) {
-  render(
-    <AppContainer>
-      {app}
-    </AppContainer>,
-    document.getElementById('root')
-  );
-}
-
-renderApp(<Root store={store} routeConfig={routeConfig} />);
-
-// Hot Module Replacement API
-/* istanbul ignore if  */
-if (module.hot) {
-  module.hot.accept('./common/routeConfig', () => {
-    const nextRouteConfig = require('./common/routeConfig').default; // eslint-disable-line
-    renderApp(<Root store={store} routeConfig={nextRouteConfig} />);
-  });
-  module.hot.accept('./Root', () => {
-    const nextRoot = require('./Root').default; // eslint-disable-line
-    renderApp(<Root store={store} routeConfig={routeConfig} />);
-  });
-}
+ReactDOM.render(<App />, document.querySelector("#root"));
